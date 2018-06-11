@@ -1,5 +1,4 @@
 FROM      ubuntu:14.04.4
-MAINTAINER Olexander Kutsenko     <olexander.kutsenko@gmail.com>
 MAINTAINER Olexander Vdovychenko  <farmazin@gmail.com>
 
 #Create docker user
@@ -46,7 +45,7 @@ RUN echo "percona-server-server-5.7 percona-server-server/root_password password
 RUN echo "percona-server-server-5.7 percona-server-server/root_password_again password root" | sudo debconf-set-selections
 RUN apt-get install -y --allow-unauthenticated percona-server-server-5.7
 COPY configs/mysql/my.cnf /etc/mysql/my.cnf
-
+RUN chown -R mysql:mysql /var/lib/mysql /var/run/mysqld
 # SSH service
 RUN sudo apt-get install -y openssh-server openssh-client
 RUN sudo mkdir /var/run/sshd
@@ -69,22 +68,6 @@ COPY configs/.bashrc /home/docker/.bashrc
 RUN locale-gen en_US.UTF-8
 RUN dpkg-reconfigure locales
 
-#Install Java 8
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886
-RUN add-apt-repository -y ppa:webupd8team/java
-RUN apt-get update
-# Accept license non-iteractive
-RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
-RUN apt-get install -y oracle-java8-installer
-RUN apt-get install -y oracle-java8-set-default
-RUN echo "JAVA_HOME=/usr/lib/jvm/java-8-oracle" | sudo tee -a /etc/environment
-RUN export JAVA_HOME=/usr/lib/jvm/java-8-oracle
-
-#ant install
-RUN sudo apt-get install -y ant
-
-#Autocomplete symfony3
-COPY configs/files/symfony3-autocomplete.bash /etc/bash_completion.d/symfony3-autocomplete.bash
 
 #Composer
 RUN cd /home
@@ -99,10 +82,5 @@ RUN cd /usr/bin && ln -s ~/.composer/vendor/bin/phpcpd
 RUN cd /usr/bin && ln -s ~/.composer/vendor/bin/phpmd
 RUN cd /usr/bin && ln -s ~/.composer/vendor/bin/phpcs
 
-
-#Node & npm
-RUN apt-get install nodejs -y
-RUN apt-get install npm -y
-
 #open ports
-EXPOSE 80 22 9000
+EXPOSE 80 22 
