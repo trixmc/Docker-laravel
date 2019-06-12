@@ -1,4 +1,4 @@
-FROM      ubuntu:14.04.4
+FROM      ubuntu:18.04
 MAINTAINER Olexander Vdovychenko  <farmazin@gmail.com>
 
 #Create docker user
@@ -21,7 +21,7 @@ COPY configs/nginx/default /etc/nginx/sites-available/default
 #Install PHP
 RUN apt-get install -y language-pack-en-base
 RUN LC_ALL=en_US.UTF-8 add-apt-repository ppa:ondrej/php
-RUN apt-get update 
+RUN apt-get update
 RUN apt-get install -y php7.1 php7.1-cli php7.1-common php7.1-cgi php7.1-curl php7.1-imap php7.1-pgsql
 RUN apt-get install -y php7.1-sqlite3 php7.1-mysql php7.1-fpm php7.1-intl php7.1-gd php7.1-json
 RUN apt-get install -y php-memcached php-memcache php-imagick php7.1-xml php7.1-mbstring php7.1-ctype
@@ -83,4 +83,4 @@ RUN cd /usr/bin && ln -s ~/.composer/vendor/bin/phpmd
 RUN cd /usr/bin && ln -s ~/.composer/vendor/bin/phpcs
 
 #open ports
-EXPOSE 80 22 
+EXPOSE 80 22
