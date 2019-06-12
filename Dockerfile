@@ -12,7 +12,6 @@ RUN chown -R docker:www-data /home/docker
 
 #install Software
 RUN apt-get update && apt-get upgrade -y
-RUN apt-get install -y software-properties-common python-software-properties
 RUN apt-get install -y git git-core vim nano mc nginx screen curl unzip wget
 RUN apt-get install -y supervisor memcached htop tmux zip
 COPY configs/supervisor/cron.conf /etc/supervisor/conf.d/cron.conf
