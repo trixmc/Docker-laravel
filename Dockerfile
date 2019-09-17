@@ -12,7 +12,7 @@ RUN chown -R docker:www-data /home/docker
 
 #install Software
 RUN apt-get update && apt-get upgrade -y
-RUN apt-get install -y git git-core vim nano mc nginx screen curl unzip wget
+RUN apt-get install -y git git-core vim nano mc nginx screen curl unzip wget software-properties-common
 RUN apt-get install -y supervisor memcached htop tmux zip
 COPY configs/supervisor/cron.conf /etc/supervisor/conf.d/cron.conf
 COPY configs/nginx/default /etc/nginx/sites-available/default
@@ -21,33 +21,34 @@ COPY configs/nginx/default /etc/nginx/sites-available/default
 RUN apt-get install -y language-pack-en-base
 RUN add-apt-repository ppa:ondrej/php
 RUN apt-get update
-RUN apt-get install -y php7.1 php7.1-cli php7.1-common php7.1-cgi php7.1-curl php7.1-imap php7.1-pgsql
-RUN apt-get install -y php7.1-sqlite3 php7.1-mysql php7.1-fpm php7.1-intl php7.1-gd php7.1-json
-RUN apt-get install -y php-memcached php-memcache php-imagick php7.1-xml php7.1-mbstring php7.1-ctype
-RUN apt-get install -y php7.1-dev php-pear
-RUN pecl install xdebug
-RUN rm /etc/php/7.1/cgi/php.ini
-RUN rm /etc/php/7.1/cli/php.ini
-RUN rm /etc/php/7.1/fpm/php.ini
-RUN rm /etc/php/7.1/fpm/pool.d/www.conf
-COPY configs/php/www.conf /etc/php/7.1/fpm/pool.d/www.conf
-COPY configs/php/php.ini  /etc/php/7.1/cgi/php.ini
-COPY configs/php/php.ini  /etc/php/7.1/cli/php.ini
-COPY configs/php/php.ini  /etc/php/7.1/fpm/php.ini
-COPY configs/php/xdebug.ini /etc/php/7.1/mods-available/xdebug.ini
+ENV TZ=Europe/Kiev
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN apt-get install -y php7.2 php7.2-cli php7.2-common php-cgi php-curl php-imap php-pgsql
+RUN apt-get install -y php-sqlite3 php-mysql php-fpm php-intl php-gd php-json
+RUN apt-get install -y php-memcached php-memcache php-imagick php-xml php-mbstring php7.2-ctype
+#RUN rm /etc/php/7.2/cgi/php.ini
+#RUN rm /etc/php/7.2/cli/php.ini
+#RUN rm /etc/php/7.2/fpm/php.ini
+#RUN rm /etc/php/7.2/fpm/pool.d/www.conf
+COPY configs/php/www.conf /etc/php/7.2/fpm/pool.d/www.conf
+COPY configs/php/php.ini  /etc/php/7.2/cgi/php.ini
+COPY configs/php/php.ini  /etc/php/7.2/cli/php.ini
+COPY configs/php/php.ini  /etc/php/7.2/fpm/php.ini
+COPY configs/php/xdebug.ini /etc/php/7.2/mods-available/xdebug.ini
 
 #Install Percona Mysql 5.6 server
-RUN wget https://repo.percona.com/apt/percona-release_0.1-4.$(lsb_release -sc)_all.deb
-RUN dpkg -i percona-release_0.1-4.$(lsb_release -sc)_all.deb
-RUN apt-get update
-RUN echo "percona-server-server-5.7 percona-server-server/root_password password root" | sudo debconf-set-selections
-RUN echo "percona-server-server-5.7 percona-server-server/root_password_again password root" | sudo debconf-set-selections
-RUN apt-get install -y --allow-unauthenticated percona-server-server-5.7
-COPY configs/mysql/my.cnf /etc/mysql/my.cnf
-RUN chown -R mysql:mysql /var/lib/mysql /var/run/mysqld
+#RUN wget https://repo.percona.com/apt/percona-release_0.1-4.$(lsb_release -sc)_all.deb
+#RUN dpkg -i percona-release_0.1-4.$(lsb_release -sc)_all.deb
+#RUN apt-get update
+#RUN echo "percona-server-server-5.7 percona-server-server/root_password password root" | sudo debconf-set-selections
+#RUN echo "percona-server-server-5.7 percona-server-server/root_password_again password root" | sudo debconf-set-selections
+#RUN apt-get install -y --allow-unauthenticated percona-server-server-5.7
+#COPY configs/mysql/my.cnf /etc/mysql/my.cnf
+#RUN chown -R mysql:mysql /var/lib/mysql /var/run/mysqld
+
 # SSH service
-RUN sudo apt-get install -y openssh-server openssh-client
-RUN sudo mkdir /var/run/sshd
+RUN apt-get install -y openssh-server openssh-client
+RUN mkdir /var/run/sshd
 RUN echo 'root:root' | chpasswd
 #change 'pass' to your secret password
 RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
