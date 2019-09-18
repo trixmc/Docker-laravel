@@ -64,13 +64,5 @@ RUN cd /home
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/ --filename=composer
 RUN chmod 777 /usr/local/bin/composer
 
-#Code standart
-RUN composer global require "squizlabs/php_codesniffer=*"
-RUN composer global require "sebastian/phpcpd=*"
-RUN composer global require "phpmd/phpmd=@stable"
-RUN cd /usr/bin && ln -s ~/.composer/vendor/bin/phpcpd
-RUN cd /usr/bin && ln -s ~/.composer/vendor/bin/phpmd
-RUN cd /usr/bin && ln -s ~/.composer/vendor/bin/phpcs
-
 #open ports
 EXPOSE 80 22
