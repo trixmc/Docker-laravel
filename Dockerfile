@@ -13,7 +13,7 @@ RUN chown -R docker:www-data /home/docker
 #install Software
 RUN apt-get update && apt-get upgrade -y
 RUN apt-get install -y git git-core vim nano mc nginx screen curl unzip wget software-properties-common
-RUN apt-get install -y supervisor memcached htop tmux zip
+RUN apt-get install -y supervisor memcached htop tmux zip sudo
 COPY configs/supervisor/cron.conf /etc/supervisor/conf.d/cron.conf
 COPY configs/nginx/default /etc/nginx/sites-available/default
 
