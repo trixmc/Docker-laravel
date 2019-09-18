@@ -23,18 +23,18 @@ RUN add-apt-repository ppa:ondrej/php
 RUN apt-get update
 ENV TZ=Europe/Kiev
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-RUN apt-get install -y php7.2 php7.2-cli php7.2-common php-cgi php-curl php-imap php-pgsql
+RUN apt-get install -y php7.3 php7.3-cli php7.3-common php-cgi php-curl php-imap php-pgsql
 RUN apt-get install -y php-sqlite3 php-mysql php-fpm php-intl php-gd php-json
-RUN apt-get install -y php-memcached php-memcache php-imagick php-xml php-mbstring php7.2-ctype
-#RUN rm /etc/php/7.2/cgi/php.ini
-#RUN rm /etc/php/7.2/cli/php.ini
-#RUN rm /etc/php/7.2/fpm/php.ini
-#RUN rm /etc/php/7.2/fpm/pool.d/www.conf
-COPY configs/php/www.conf /etc/php/7.2/fpm/pool.d/www.conf
-COPY configs/php/php.ini  /etc/php/7.2/cgi/php.ini
-COPY configs/php/php.ini  /etc/php/7.2/cli/php.ini
-COPY configs/php/php.ini  /etc/php/7.2/fpm/php.ini
-COPY configs/php/xdebug.ini /etc/php/7.2/mods-available/xdebug.ini
+RUN apt-get install -y php-memcached php-memcache php-imagick php-xml php-mbstring php7.3-ctype
+#RUN rm /etc/php/7.3/cgi/php.ini
+#RUN rm /etc/php/7.3/cli/php.ini
+#RUN rm /etc/php/7.3/fpm/php.ini
+#RUN rm /etc/php/7.3/fpm/pool.d/www.conf
+COPY configs/php/www.conf /etc/php/7.3/fpm/pool.d/www.conf
+COPY configs/php/php.ini  /etc/php/7.3/cgi/php.ini
+COPY configs/php/php.ini  /etc/php/7.3/cli/php.ini
+COPY configs/php/php.ini  /etc/php/7.3/fpm/php.ini
+COPY configs/php/xdebug.ini /etc/php/7.3/mods-available/xdebug.ini
 
 # SSH service
 RUN apt-get install -y openssh-server openssh-client
