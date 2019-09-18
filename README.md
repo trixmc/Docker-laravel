@@ -1,14 +1,9 @@
 # Create container
 ```
-docker run -it -d --name=laravel -h=laravel -p 1080:80 -p 1022:22trixmc/docker-laravel /bin/bash
+docker run -it -d --name=laravel -h=laravel -p 1080:80 -p 1022:22 trixmc/docker-laravel /bin/bash
 ```
 ```
 docker run -it -d --name=laravel -h=laravel -v /local/code/dir:/var/www/laravel -p 1080:80 -p 1022:22 trixmc/docker-laravel /bin/bash
-```
-# MySQL
-```
-user: root 
-password: root
 ```
 # SSH as docker user in Groups: www-data,sudo
 ```

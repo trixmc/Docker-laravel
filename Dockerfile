@@ -36,16 +36,6 @@ COPY configs/php/php.ini  /etc/php/7.2/cli/php.ini
 COPY configs/php/php.ini  /etc/php/7.2/fpm/php.ini
 COPY configs/php/xdebug.ini /etc/php/7.2/mods-available/xdebug.ini
 
-#Install Percona Mysql 5.6 server
-#RUN wget https://repo.percona.com/apt/percona-release_0.1-4.$(lsb_release -sc)_all.deb
-#RUN dpkg -i percona-release_0.1-4.$(lsb_release -sc)_all.deb
-#RUN apt-get update
-#RUN echo "percona-server-server-5.7 percona-server-server/root_password password root" | sudo debconf-set-selections
-#RUN echo "percona-server-server-5.7 percona-server-server/root_password_again password root" | sudo debconf-set-selections
-#RUN apt-get install -y --allow-unauthenticated percona-server-server-5.7
-#COPY configs/mysql/my.cnf /etc/mysql/my.cnf
-#RUN chown -R mysql:mysql /var/lib/mysql /var/run/mysqld
-
 # SSH service
 RUN apt-get install -y openssh-server openssh-client
 RUN mkdir /var/run/sshd
